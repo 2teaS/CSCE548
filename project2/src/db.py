@@ -3,6 +3,8 @@ from mysql.connector import Error
 
 def get_conn():
     return mysql.connector.connect(
+        host="127.0.0.1",   # <-- important (forces TCP)
+        port=3306,   
         user="root",
         password="TempPass_123!",
         database="csce548_watchlist",
