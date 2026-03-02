@@ -19,7 +19,17 @@ from business import BusinessLayer
 
 app = FastAPI(title="CSCE548 Project 2 - Movie Watchlist Service")
 bl = BusinessLayer()
-
+from fastapi.middleware.cors import CORSMiddleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ----------- Models -----------
 class MovieIn(BaseModel):
