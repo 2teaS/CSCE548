@@ -8,25 +8,25 @@ The application successfully calls the following endpoints from Project 2:
 
 Movies
 
-GET /movies (retrieve all movies)
-
-GET /movies/{movie_id} (retrieve a single movie)
-
-POST /movies (create a movie)
-
-PUT /movies/{movie_id} (update a movie)
-
-DELETE /movies/{movie_id} (delete a movie)
+    GET /movies (retrieve all movies)
+    
+    GET /movies/{movie_id} (retrieve a single movie)
+    
+    POST /movies (create a movie)
+    
+    PUT /movies/{movie_id} (update a movie)
+    
+    DELETE /movies/{movie_id} (delete a movie)
 
 Lists
 
-GET /users/{user_id}/lists (retrieve lists for a user – subset)
-
-POST /users/{user_id}/lists (create a list)
-
-PUT /lists/{list_id} (update a list)
-
-DELETE /lists/{list_id} (delete a list)
+    GET /users/{user_id}/lists (retrieve lists for a user – subset)
+    
+    POST /users/{user_id}/lists (create a list)
+    
+    PUT /lists/{list_id} (update a list)
+    
+    DELETE /lists/{list_id} (delete a list)
 
 This satisfies the requirement to call all GET methods (get all, get single, and get subset) and demonstrate full CRUD functionality.
 
