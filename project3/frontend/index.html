@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" href="data:,">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CSCE548 Project 3 - Movie Watchlist Client</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 30px;
+    background: linear-gradient(135deg, #1f2937, #111827);
+    color: #f3f4f6;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #60a5fa;
+  }
+
+  .row {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .card {
+    background: #1f2937;
+    border-radius: 15px;
+    padding: 20px;
+    width: 450px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    transition: transform 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
+  h2 {
+    color: #fbbf24;
+    border-bottom: 2px solid #374151;
+    padding-bottom: 8px;
+  }
+
+  h3 {
+    color: #93c5fd;
+    margin-top: 20px;
+  }
+
+  input {
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 8px;
+    border: none;
+    background: #374151;
+    color: white;
+  }
+
+  input::placeholder {
+    color: #9ca3af;
+  }
+
+  button {
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+  }
+
+  button:hover {
+    background: #3b82f6;
+    transform: scale(1.02);
+  }
+
+  pre {
+    background: #000;
+    color: #10b981;
+    padding: 15px;
+    border-radius: 10px;
+    overflow: auto;
+    margin-top: 30px;
+  }
+
+  .small {
+    text-align: center;
+    color: #9ca3af;
+  }
+</style>
+</head>
+<body>
+  <h1>CSCE548 Project 3 - Movie Watchlist Client</h1>
+  <p class="small">
+    Set API Base URL in <code>app.js</code>. Start FastAPI first (uvicorn), then open this page.
+  </p>
+
+  <div class="row">
+    <div class="card">
+      <h2>Movies</h2>
+
+      <h3>Get all movies</h3>
+      <button id="btnGetMovies">GET /movies</button>
+
+      <h3>Get movie by ID</h3>
+      <input id="movieIdGet" placeholder="movie_id (e.g., 1)" />
+      <button id="btnGetMovieById">GET /movies/{movie_id}</button>
+
+      <h3>Create movie</h3>
+      <input id="movieTitle" placeholder="title" />
+      <input id="movieYear" placeholder="release_year (e.g., 2010)" />
+      <input id="movieRuntime" placeholder="runtime_minutes (e.g., 120)" />
+      <input id="movieGenre" placeholder="genre (e.g., Sci-Fi)" />
+      <button id="btnCreateMovie">POST /movies</button>
+
+      <h3>Update movie</h3>
+      <input id="movieIdUpdate" placeholder="movie_id to update" />
+      <input id="movieTitleU" placeholder="title" />
+      <input id="movieYearU" placeholder="release_year" />
+      <input id="movieRuntimeU" placeholder="runtime_minutes" />
+      <input id="movieGenreU" placeholder="genre" />
+      <button id="btnUpdateMovie">PUT /movies/{movie_id}</button>
+
+      <h3>Delete movie</h3>
+      <input id="movieIdDelete" placeholder="movie_id to delete" />
+      <button id="btnDeleteMovie">DELETE /movies/{movie_id}</button>
+    </div>
+
+    <div class="card">
+      <h2>Lists</h2>
+
+      <h3>Get lists by user (subset)</h3>
+      <input id="userIdLists" placeholder="user_id (e.g., 1)" />
+      <button id="btnGetListsByUser">GET /users/{user_id}/lists</button>
+
+      <h3>Create list (for a user)</h3>
+      <input id="userIdCreateList" placeholder="user_id" />
+      <input id="listName" placeholder="list name" />
+      <button id="btnCreateList">POST /users/{user_id}/lists</button>
+
+      <h3>Update list</h3>
+      <input id="listIdUpdate" placeholder="list_id" />
+      <input id="listNameU" placeholder="new list name" />
+      <button id="btnUpdateList">PUT /lists/{list_id}</button>
+
+      <p class="small">
+        If your backend has DELETE for lists, we can add it here too.
+      </p>
+    </div>
+  </div>
+
+  <h2>Output</h2>
+  <pre id="output">Ready.</pre>
+
+  <script src="app.js"></script>
+</body>
+</html>
