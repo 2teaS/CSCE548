@@ -48,4 +48,18 @@ The final system demonstrates successful client-server communication and full in
 
 ## Repository Structure
 
+##To run this application locally, the following software is required:
+
+    - Python 3.10+
+    
+    - FastAPI
+    
+    - Uvicorn
+    
+    - MySQL Server
+    
+    - mysql-connector-python
+    
+    - A web browser
+
 
