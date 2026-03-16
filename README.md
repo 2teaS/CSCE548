@@ -1,65 +1,173 @@
-# Project 3 Overview – Movie Watchlist Client
+# 🎬 CSCE 548 — Movie Watchlist Application
 
-For Project 3, I developed a web-based frontend client for the Movie Watchlist REST API created in Project 2. The objective of this project was to demonstrate two-way communication between a browser-based client and a FastAPI backend service using HTTP requests.
+A full-stack, 4-tier movie watchlist application built for CSCE 548 at the University of South Carolina. Built with AI assistance (Claude by Anthropic) as part of an exercise in AI-assisted software development.
 
-The frontend was built using HTML, CSS, and JavaScript, and it communicates with the backend using the Fetch API. The backend runs on port 8000 using Uvicorn, and the frontend is served separately on port 5500 to maintain proper client-server architecture.
+---
 
-The application successfully calls the following endpoints from Project 2:
+## Architecture
 
-Movies
+```
+┌─────────────────────────────────────────────────────┐
+│  Client Layer       HTML + JavaScript (port 5500)   │
+├─────────────────────────────────────────────────────┤
+│  Service Layer      FastAPI + Uvicorn (port 8000)   │
+├─────────────────────────────────────────────────────┤
+│  Business Layer     Python — validation rules       │
+├─────────────────────────────────────────────────────┤
+│  Data Layer (DAL)   Python — mysql-connector        │
+├─────────────────────────────────────────────────────┤
+│  Database           MySQL 8 — csce548_watchlist     │
+└─────────────────────────────────────────────────────┘
+```
 
-    GET /movies (retrieve all movies)
-    
-    GET /movies/{movie_id} (retrieve a single movie)
-    
-    POST /movies (create a movie)
-    
-    PUT /movies/{movie_id} (update a movie)
-    
-    DELETE /movies/{movie_id} (delete a movie)
-
-Lists
-
-    GET /users/{user_id}/lists (retrieve lists for a user – subset)
-    
-    POST /users/{user_id}/lists (create a list)
-    
-    PUT /lists/{list_id} (update a list)
-    
-    DELETE /lists/{list_id} (delete a list)
-
-This satisfies the requirement to call all GET methods (get all, get single, and get subset) and demonstrate full CRUD functionality.
-
-During integration, I encountered issues including CORS restrictions between the frontend and backend servers, MySQL connection errors, and database integrity constraints when attempting to create duplicate records. These were resolved by configuring FastAPI CORSMiddleware, ensuring the MySQL server was running, and handling unique constraints properly.
-
-ChatGPT was used to help generate the frontend structure and Fetch API calls. While it accelerated development, debugging and configuration required manual understanding of REST architecture and database connectivity.
-
-The final system demonstrates successful client-server communication and full interaction with the database through the REST API. Screenshots included in the submission show all required operations functioning correctly.
-## Tech Stack
-- MySQL Community Server
-- Python 3
-- mysql-connector-python
-
-## Project Features
-- MySQL database with **5 tables** and proper primary/foreign key relationships
-- SQL scripts to create the schema and insert **50+ rows** of test data
-- Python data access layer (DAL) with CRUD operations
-- Console-based application that retrieves and displays database records
+---
 
 ## Repository Structure
 
-##To run this application locally, the following software is required:
+```
+CSCE548/
+├── project2/src/          # Backend (FastAPI service)
+│   ├── service.py         # REST API endpoints
+│   ├── business.py        # Business rules & validation
+│   ├── db.py              # MySQL connection
+│   ├── requirements.txt
+│   └── dal/
+│       ├── movies_dao.py  # Movies CRUD
+│       └── lists_dao.py   # Watchlists CRUD
+├── project3/frontend/     # Frontend
+│   ├── index.html         # Single-page app UI
+│   └── app.js             # API calls (legacy)
+├── sql/
+│   ├── 01_schema.sql      # Database schema
+│   └── 02_seed.sql        # Sample data (50+ rows)
+└── README.md
+```
 
-    - Python 3.10+
-    
-    - FastAPI
-    
-    - Uvicorn
-    
-    - MySQL Server
-    
-    - mysql-connector-python
-    
-    - A web browser
+---
 
+## Prerequisites
 
+| Tool | Version |
+|------|---------|
+| Python | 3.9+ |
+| MySQL Community Server | 8.0+ |
+| pip | bundled with Python |
+| Git | any recent version |
+| Web browser | Chrome, Firefox, or Safari |
+
+---
+
+## Quick Start
+
+### 1. Clone the repo
+```bash
+git clone https://github.com/2teaS/CSCE548.git
+cd CSCE548
+```
+
+### 2. Start MySQL
+```bash
+# macOS (Homebrew)
+brew services start mysql
+
+# macOS (official installer)
+sudo /usr/local/mysql/support-files/mysql.server start
+
+# Linux
+sudo systemctl start mysql
+```
+
+### 3. Set up the database
+```bash
+mysql -u root -p
+```
+Inside MySQL:
+```sql
+SOURCE /full/path/to/CSCE548/sql/01_schema.sql;
+SOURCE /full/path/to/CSCE548/sql/02_seed.sql;
+EXIT;
+```
+
+### 4. Configure the database connection
+Edit `project2/src/db.py` and update:
+```python
+password = "YourMySQLPasswordHere"
+```
+
+### 5. Install Python dependencies
+```bash
+cd project2/src
+pip install -r requirements.txt
+```
+
+### 6. Start the backend
+```bash
+uvicorn service:app --reload --port 8000
+```
+✅ You should see: `Uvicorn running on http://127.0.0.1:8000`
+
+Interactive API docs available at: `http://127.0.0.1:8000/docs`
+
+### 7. Serve the frontend
+Open a second terminal:
+```bash
+cd project3/frontend
+python -m http.server 5500
+```
+Then open your browser to: **http://127.0.0.1:5500/index.html**
+
+Click **Ping** — the status indicator should turn green ✅
+
+---
+
+## Features
+
+- **Movies** — Create, read, update, and delete movie records
+- **Watchlists** — Create and manage user watchlists
+- **Filter** — Filter movies by genre
+- **Quick actions** — Edit and Delete buttons directly in the movie table
+- **Validation** — Business rules enforced (year range, required fields, etc.)
+- **User-friendly UI** — Clean response cards instead of raw JSON
+
+---
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/movies` | List all movies |
+| GET | `/movies/{id}` | Get a single movie |
+| POST | `/movies` | Create a movie |
+| PUT | `/movies/{id}` | Update a movie |
+| DELETE | `/movies/{id}` | Delete a movie |
+| GET | `/users/{user_id}/lists` | Get a user's watchlists |
+| POST | `/users/{user_id}/lists` | Create a watchlist |
+| PUT | `/lists/{list_id}` | Rename a watchlist |
+| DELETE | `/lists/{list_id}` | Delete a watchlist |
+| GET | `/lists/{list_id}/items` | Get movies in a list |
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| Frontend shows "Server unreachable" | Make sure uvicorn is running on port 8000 |
+| MySQL connection error | Check credentials in `db.py`; try removing the `unix_socket` line on macOS |
+| `ModuleNotFoundError` | Run `pip install -r requirements.txt` from `project2/src/` |
+| CORS error in browser | Serve the frontend via `http://` (not `file://`) using `python -m http.server 5500` |
+| Port 8000 already in use | Run `lsof -ti:8000 \| xargs kill -9` then restart uvicorn |
+
+---
+
+## Built With
+
+- [FastAPI](https://fastapi.tiangolo.com/) — Python REST framework
+- [Uvicorn](https://www.uvicorn.org/) — ASGI server
+- [mysql-connector-python](https://dev.mysql.com/doc/connector-python/en/) — MySQL driver
+- [Pydantic](https://docs.pydantic.dev/) — Data validation
+- AI assistance by [Claude](https://claude.ai) (Anthropic)
+
+---
+
+*CSCE 548 — Database Systems | University of South Carolina | Spring 2026*
